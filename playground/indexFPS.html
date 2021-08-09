@@ -1,0 +1,162 @@
+<html>
+    <head>
+        <title>Playground! FPS</title>
+    </head>
+    <body>
+        <canvas id="grid" width="700" height="700"></canvas>
+
+
+    </body>
+    <style>
+        #grid{
+            background-color: thistle;
+        }
+    </style>
+    <script>
+
+        function app (){
+            const canvas=document.getElementById("grid");
+
+            const ctx=canvas.getContext("2d");
+            const cw=canvas.width;
+            const ch=canvas.height;
+
+            const gridSize = 30;
+            const halfGridSize = gridSize / 2;
+
+            const shapes = []
+
+            let mousePosition = {
+                x: 0,
+                y: 0
+            }
+
+            const clickPositions = []
+
+            let offsetX,offsetY;
+
+            function reOffset(){
+                const BB=canvas.getBoundingClientRect();
+                offsetX=BB.left;
+                offsetY=BB.top;        
+            }
+            
+            
+            function initial(){
+                
+                reOffset();
+                ctx.fillStyle='purple';
+                ctx.strokeStyle="black";
+                ctx.lineWidth=1;
+
+                // Generate all grid
+                for(var x = 0; x < cw; x += gridSize){
+                    const xEven = ((x / gridSize)%2 === 0)? true : false;
+                    const xPlus = x + gridSize
+                
+                    for(var y = 0; y < ch; y += halfGridSize){
+
+                        const yEven = ((y / halfGridSize)%2 === 0)? true : false;
+                        const yPlus = y + gridSize
+
+                        console.log("xEven | yEven", xEven, yEven)
+
+                        if(yEven && xEven || !yEven && !xEven){
+                            shapes.push([{x, y: y + halfGridSize}, {x: xPlus, y: yPlus}, {x:xPlus, y}])
+                        }
+                        else if(!yEven && xEven || yEven && !xEven){
+                            shapes.push([{x: x, y: yPlus}, {x:x + gridSize, y: y + halfGridSize}, {x: x, y}])
+                        }
+                        else {
+                            // You done fucked up
+                        }
+
+                    }
+                }
+
+
+            }
+
+
+            function draw(){
+                // ctx.clearRect(0,0,cw,ch);
+                for(var i=0;i<shapes.length;i++){
+                    defineShape(shapes[i]);
+                    if(ctx.isPointInPath(mousePosition.x, mousePosition.y)){
+                        ctx.fill();
+                    }
+                    else{
+                        ctx.stroke();
+                    }
+                }
+            }
+
+            function loop(){
+                window.setTimeout(loop, 20);
+                draw() 
+            }
+
+
+            function defineShape(s){
+                ctx.beginPath();
+                ctx.moveTo(s[0].x,s[0].y);
+                for(var i=1;i<s.length;i++){
+                    ctx.lineTo(s[i].x,s[i].y);
+                }
+                ctx.closePath();
+            }
+
+            function handleMouseMove(e){
+                console.log('Move!')
+
+                e.preventDefault();
+                e.stopPropagation();
+
+                mouseX=parseInt(e.clientX-offsetX);
+                mouseY=parseInt(e.clientY-offsetY);
+
+                mousePosition = {
+                    x: mouseX,
+                    y: mouseY
+                }
+ 
+            }
+
+            // function handleMouseClick(e){
+            //     console.log('Click!')
+
+            //     e.preventDefault();
+            //     e.stopPropagation();
+            //     // mouse position
+            //     mouseX=parseInt(e.clientX-offsetX);
+            //     mouseY=parseInt(e.clientY-offsetY);
+
+            //     ctx.clearRect(0,0,cw,ch);
+            //     for(var i=0;i<shapes.length;i++){
+            //         defineShape(shapes[i]);
+            //         if(ctx.isPointInPath(mouseX,mouseY)){
+            //             ctx.globalAlpha = 1.00;
+            //             ctx.fill();
+            //         }                  
+            //     }
+            // }
+
+            canvas.addEventListener('mousemove', handleMouseMove)
+            // canvas.addEventListener('click', handleMouseClick)
+
+
+            initial();
+            loop();
+
+
+        }
+
+
+        (function(){
+            console.log('Start')
+            document.addEventListener("DOMContentLoaded", app);
+        })();
+
+
+    </script>
+</html>
