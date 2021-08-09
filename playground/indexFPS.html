@@ -25,13 +25,15 @@
             const halfGridSize = gridSize / 2;
 
             const shapes = []
+            const clickShapes = []
 
-            let mousePosition = {
+            let moveMousePosition = {
                 x: 0,
                 y: 0
             }
 
-            const clickPositions = []
+            let clickMousePosition = undefined;
+
 
             let offsetX,offsetY;
 
@@ -46,7 +48,7 @@
                 
                 reOffset();
                 ctx.fillStyle='purple';
-                ctx.strokeStyle="black";
+                ctx.strokeStyle="grey";
                 ctx.lineWidth=1;
 
                 // Generate all grid
@@ -59,16 +61,20 @@
                         const yEven = ((y / halfGridSize)%2 === 0)? true : false;
                         const yPlus = y + gridSize
 
-                        console.log("xEven | yEven", xEven, yEven)
-
                         if(yEven && xEven || !yEven && !xEven){
-                            shapes.push([{x, y: y + halfGridSize}, {x: xPlus, y: yPlus}, {x:xPlus, y}])
+                            shapes.push({
+                                id: `${x}:${y}`,
+                                shape: [{x, y: y + halfGridSize}, {x: xPlus, y: yPlus}, {x:xPlus, y}]
+                            })
                         }
                         else if(!yEven && xEven || yEven && !xEven){
-                            shapes.push([{x: x, y: yPlus}, {x:x + gridSize, y: y + halfGridSize}, {x: x, y}])
+                            shapes.push({
+                                id: `${x}:${y}`,
+                                shape: [{x: x, y: yPlus}, {x:x + gridSize, y: y + halfGridSize}, {x: x, y}]
+                            })
                         }
                         else {
-                            // You done fucked up
+                            // You done fucked up a-aron
                         }
 
                     }
@@ -79,15 +85,32 @@
 
 
             function draw(){
-                // ctx.clearRect(0,0,cw,ch);
+                ctx.clearRect(0,0,cw,ch);
                 for(var i=0;i<shapes.length;i++){
-                    defineShape(shapes[i]);
-                    if(ctx.isPointInPath(mousePosition.x, mousePosition.y)){
+                    defineShape(shapes[i].shape);
+
+                    if(clickMousePosition){
+                        if(ctx.isPointInPath(clickMousePosition.x, clickMousePosition.y)){
+                            console.log('Click!')
+                            clickShapes.push(shapes[i]);
+                            ctx.fill();
+                            clickMousePosition = undefined;
+                        }
+
+                    }
+
+                    if(ctx.isPointInPath(moveMousePosition.x, moveMousePosition.y)){
+                        ctx.strokeStyle="black";
+                        ctx.stroke();
+                        ctx.strokeStyle="grey";
+                    }else{
+                        ctx.stroke()
+                    } 
+                    
+                    if(clickShapes.find( shape => shape.id === shapes[i].id)){
                         ctx.fill();
                     }
-                    else{
-                        ctx.stroke();
-                    }
+                                     
                 }
             }
 
@@ -107,42 +130,34 @@
             }
 
             function handleMouseMove(e){
-                console.log('Move!')
-
                 e.preventDefault();
                 e.stopPropagation();
 
                 mouseX=parseInt(e.clientX-offsetX);
                 mouseY=parseInt(e.clientY-offsetY);
 
-                mousePosition = {
+                moveMousePosition = {
                     x: mouseX,
                     y: mouseY
                 }
  
             }
 
-            // function handleMouseClick(e){
-            //     console.log('Click!')
+            function handleMouseClick(e){
+                e.preventDefault();
+                e.stopPropagation();
 
-            //     e.preventDefault();
-            //     e.stopPropagation();
-            //     // mouse position
-            //     mouseX=parseInt(e.clientX-offsetX);
-            //     mouseY=parseInt(e.clientY-offsetY);
+                mouseX=parseInt(e.clientX-offsetX);
+                mouseY=parseInt(e.clientY-offsetY);
 
-            //     ctx.clearRect(0,0,cw,ch);
-            //     for(var i=0;i<shapes.length;i++){
-            //         defineShape(shapes[i]);
-            //         if(ctx.isPointInPath(mouseX,mouseY)){
-            //             ctx.globalAlpha = 1.00;
-            //             ctx.fill();
-            //         }                  
-            //     }
-            // }
+                clickMousePosition = {
+                    x: mouseX,
+                    y: mouseY
+                }
+            }
 
             canvas.addEventListener('mousemove', handleMouseMove)
-            // canvas.addEventListener('click', handleMouseClick)
+            canvas.addEventListener('click', handleMouseClick)
 
 
             initial();
