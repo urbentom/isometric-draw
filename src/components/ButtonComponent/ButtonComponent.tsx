@@ -8,6 +8,7 @@ import { IconTypes } from '../../types';
 type ButtonComponentProps = {
   copy?: string
   active?: boolean
+  fill? : string
   icon?: IconTypes
   onClick: () => void
 }
@@ -19,7 +20,7 @@ const ButtonComponent: React.FC<ButtonComponentProps> = (props) => {
 
 
   return <Wrapper onClick={props.onClick} active={props.active}>
-    {props.icon ? <IconComponent icon={props.icon} height="30px" width="30px" fill="#ffffff" /> : (null) }
+    {props.icon ? <IconComponent icon={props.icon} height="30px" width="30px" fill={props.fill ?? "#ffffff"} /> : (null) }
     {props.copy}
   </Wrapper>
 

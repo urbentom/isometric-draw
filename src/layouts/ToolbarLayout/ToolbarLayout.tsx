@@ -11,18 +11,21 @@ type ToolbarLayoutProps = {}
 
 const ToolbarLayout: React.FC<ToolbarLayoutProps> = (props) => {
 
-  const { setColour, colourPallet, currentTool, setTool } = useContext(ToolbarContext);
+  const { setColour, colourPallet, currentTool, setTool, fillColour } = useContext(ToolbarContext);
 
   const [openPallet, setOpenPallet] = useState<boolean>(false)
 
   return <Wrapper>
     <ButtonComponent icon={IconTypes.PEN} active={currentTool === Tools.PAINT} onClick={ () => setTool(Tools.PAINT)}  />
     <ButtonComponent icon={IconTypes.ERASER} active={currentTool === Tools.ERASE} onClick={ () => setTool(Tools.ERASE)}  />
-    <ButtonComponent icon={IconTypes.PALLET} onClick={ () => setOpenPallet(!openPallet)}  />
+    <ButtonComponent icon={IconTypes.PALLET} onClick={ () => setOpenPallet(!openPallet)} fill={fillColour} />
 
     <PalletMenu show={openPallet}>
       {
-        colourPallet.map( (colour) => <PalletColour colour={colour} onClick={ () => setColour(colour)} /> )
+        colourPallet.map( (colour) => <PalletColour colour={colour} onClick={ () => {
+          setColour(colour);
+          setOpenPallet(false)
+        }} active={colour === fillColour} /> )
       }
     </PalletMenu>
   </Wrapper>
@@ -49,9 +52,10 @@ const PalletMenu = styled.div<{show: boolean}>`
   top: 92px;
   left: 55px;
 `
-const PalletColour = styled.div<{colour: string}>`
+const PalletColour = styled.div<{colour: string, active: boolean}>`
   background-color: ${ ({colour}) => colour };
-  
+  border: solid 2px;
+  border-color: ${ ({active, colour}) => active? "#ffffff" : colour };
   height: 30px;
   width: 30px;
   border-radius: 5px;
