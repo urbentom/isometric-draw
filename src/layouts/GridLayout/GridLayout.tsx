@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef, useContext } from 'react';
 import styled from 'styled-components';
 import ToolbarContext from '../../contexts/ToolbarContext';
 
-import { Point, Shape, Dimensions } from '../../types';
+import { Point, Shape, Tools } from '../../types';
 
 type GridLayoutProps = {}
 
@@ -17,7 +17,7 @@ const GridLayout: React.FC<GridLayoutProps> = (props) => {
   const [shapes, setShapes] = useState<Shape[]>([]);
   const [offset, setOffset] = useState<Point>();
 
-  const { fillColour, gridSize, strokeColour} = useContext(ToolbarContext)
+  const { fillColour, gridSize, strokeColour, currentTool } = useContext(ToolbarContext)
 
   const reOffset = () => {
     if(canvasRef.current === null) return;
@@ -95,10 +95,29 @@ const GridLayout: React.FC<GridLayoutProps> = (props) => {
 
       if(mouseClickPosition.current){
         if(ctx.isPointInPath(mouseClickPosition.current.x, mouseClickPosition.current.y)){
-            const colour = fillColour;
-            ctx.fillStyle=colour;
-            ctx.fill();
-            clickedShapes.current.push({...shapes[i], colour});
+
+            switch(currentTool){
+
+              case Tools.PAINT:
+                const colour = fillColour;
+                ctx.fillStyle=colour;
+                ctx.fill();
+                clickedShapes.current.push({...shapes[i], colour});
+                break;
+              case Tools.ERASE:
+                const index = clickedShapes.current.findIndex( (shape) => shape.id === shapes[i].id );
+                if(index !== -1) {
+
+                  clickedShapes.current.splice(index, 1);
+
+                  ctx.fillStyle="transparent";
+                  ctx.fill();
+
+                }
+
+                break;
+            }
+            
             mouseClickPosition.current = undefined
         }
     }
@@ -218,7 +237,7 @@ const GridLayout: React.FC<GridLayoutProps> = (props) => {
       canvas.removeEventListener('mouseup', handleMouseUp)
     }
 
-  }, [shapes, fillColour])
+  }, [shapes, fillColour, currentTool])
 
 
   return <Canvas ref={canvasRef} width="100" height="100" /> 
