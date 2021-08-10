@@ -6,7 +6,6 @@
     "@testing-library/jest-dom": "^5.11.4",
     "@testing-library/react": "^11.1.0",
     "@testing-library/user-event": "^12.1.10",
-   
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
     "react-scripts": "4.0.3",
@@ -18,12 +17,18 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "lint": "prettier --write \"**/**/*.{ts,tsx,json}\"",
+    "prepare": "husky install"
   },
   "eslintConfig": {
     "extends": [
-      "react-app",
-      "react-app/jest"
+        "react-app",
+        "react-app/jest",
+        "plugin:jsx-a11y/recommended"
+    ],
+    "plugins": [
+        "jsx-a11y"
     ]
   },
   "browserslist": {
@@ -39,10 +44,16 @@
     ]
   },
   "devDependencies": {
-    "@types/styled-components": "^5.1.12",
     "@types/jest": "^26.0.15",
     "@types/node": "^12.0.0",
     "@types/react": "^17.0.0",
-    "@types/react-dom": "^17.0.0"
+    "@types/react-dom": "^17.0.0",
+    "@types/styled-components": "^5.1.12",
+    "husky": "^7.0.1",
+    "lint-staged": "^11.1.2",
+    "prettier": "^2.3.2"
+  },
+  "lint-staged": {
+    "**/*.+(js|jsx|css|less|scss|ts|tsx|md|graphql)": "prettier --write"
   }
 }
