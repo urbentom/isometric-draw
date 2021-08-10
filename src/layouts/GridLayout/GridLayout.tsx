@@ -247,6 +247,8 @@ const GridLayout: React.FC<GridLayoutProps> = (props) => {
 
 }
 
-const Canvas = styled.canvas``
+const Canvas = styled.canvas`
+  display: block;
+`
 
 export default GridLayout; 

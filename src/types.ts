@@ -21,6 +21,7 @@ export enum IconTypes {
   GITHUB = 'github',
   SHOW_GRID = 'showGrid',
   HIDE_GRID = 'hideGrid',
+  COOKIE = 'cookie',
 }
 
 export enum Tools {

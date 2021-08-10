@@ -5,6 +5,7 @@ import { Integrations } from "@sentry/tracing";
 import ReactGA from 'react-ga';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
+import './Normalise.css';
 
 import { ToolBarContextProvider }  from './contexts/ToolBarContext'
 
