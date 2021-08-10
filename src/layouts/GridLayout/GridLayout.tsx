@@ -67,7 +67,6 @@ const GridLayout: React.FC<GridLayoutProps> = (props) => {
       }
     }
 
-    console.log('tempShapes', tempShapes)
     setShapes(tempShapes);  
   }
 

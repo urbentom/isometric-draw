@@ -1,10 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
 
-import BrushIcon from '../../assets/icons/brush.svg'
-import EraserIcon from '../../assets/icons/eraser.svg'
-import PalletIcon from '../../assets/icons/pallet.svg'
-
 import { IconTypes } from '../../types';
 
 type IconComponentProps = {
