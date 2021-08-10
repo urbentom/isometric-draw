@@ -73,6 +73,7 @@ function App() {
     canvasContext.lineWidth=1;
 
     canvas.addEventListener('mousemove', handleMouseMove)
+    canvas.addEventListener('click', handleMouseClick)
     canvas.addEventListener('mousedown', handleMouseDown)
     canvas.addEventListener('mouseup', handleMouseUp)
 
@@ -208,6 +209,21 @@ function handleMouseMove(e: any){
       x: mouseX,
       y: mouseY
     }
+  }
+
+}
+function handleMouseClick(e: any){
+  e.preventDefault();
+  e.stopPropagation();
+
+  // @ts-ignore
+  const mouseX=parseInt(e.clientX-offsetX);
+  // @ts-ignore
+  const mouseY=parseInt(e.clientY-offsetY);
+
+  mouseClickPosition = {
+    x: mouseX,
+    y: mouseY
   }
 
 }
