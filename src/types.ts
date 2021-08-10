@@ -18,7 +18,9 @@ export enum IconTypes {
   PEN = "pen",
   ERASER = "eraser",
   PALLET = 'pallet',
-  GITHUB = 'github'
+  GITHUB = 'github',
+  SHOW_GRID = 'showGrid',
+  HIDE_GRID = 'hideGrid',
 }
 
 export enum Tools {

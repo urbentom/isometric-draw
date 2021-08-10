@@ -11,7 +11,9 @@ type ToolBarContextProps = {
   colourPallet: string[]
   setColour: (colour: string) => void
   setTool: (tool: Tools) => void
+  setHideGrid: (hide: boolean) => void
   gridSize: number
+  hideGrid: boolean
 }
 
 enum Tools {
@@ -40,13 +42,16 @@ const Context = React.createContext<ToolBarContextProps>({
   colourPallet: SummerNeonPallet,
   setColour: () => null,
   setTool: () => null,
-  gridSize: 30
+  setHideGrid: () => null,
+  gridSize: 30,
+  hideGrid: false,
 })
 
 const ToolBarContextProvider: React.FC<ProviderProps> = ( {children}) => {
   const [currentTool, setCurrentTool] = useState<Tools>(Tools.PAINT);
   const [gridSize, setGridSize] = useState<number>(30);
   const [fillColour, setFillColour] = useState<string>("#F6A9A9");
+  const [hideGrid, setHideGrid] = useState<boolean>(false);
   const [colourPallet, setColourPallet] = useState<string[]>(SummerNeonPallet);
 
   const strokeColour = 'lightgrey'
@@ -59,6 +64,8 @@ const ToolBarContextProvider: React.FC<ProviderProps> = ( {children}) => {
         strokeColour,
 				colourPallet,
         gridSize,
+        hideGrid,
+        setHideGrid,
         setColour: setFillColour,
         setTool: setCurrentTool
 			}}

@@ -17,7 +17,7 @@ const GridLayout: React.FC<GridLayoutProps> = (props) => {
   const [shapes, setShapes] = useState<Shape[]>([]);
   const [offset, setOffset] = useState<Point>();
 
-  const { fillColour, gridSize, strokeColour, currentTool } = useContext(ToolbarContext)
+  const { fillColour, gridSize, strokeColour, currentTool, hideGrid } = useContext(ToolbarContext)
 
   const reOffset = () => {
     if(canvasRef.current === null) return;
@@ -120,15 +120,19 @@ const GridLayout: React.FC<GridLayoutProps> = (props) => {
             
             mouseClickPosition.current = undefined
         }
-    }
+      }
 
-      if(ctx.isPointInPath(mouseMovePosition.current.x, mouseMovePosition.current.y)){
-        ctx.strokeStyle="black";
-        ctx.stroke();
-        ctx.strokeStyle=strokeColour;
-      }else{
-        ctx.stroke()
-      } 
+      if(!hideGrid){
+        if(ctx.isPointInPath(mouseMovePosition.current.x, mouseMovePosition.current.y)){
+          ctx.strokeStyle="black";
+          ctx.stroke();
+          ctx.strokeStyle=strokeColour;
+        }else{
+          ctx.stroke()
+        } 
+      }
+
+      
 
       const clickedShape = clickedShapes.current.find( shape => shape.id === shapes[i].id)
 
@@ -237,7 +241,7 @@ const GridLayout: React.FC<GridLayoutProps> = (props) => {
       canvas.removeEventListener('mouseup', handleMouseUp)
     }
 
-  }, [shapes, fillColour, currentTool])
+  }, [shapes, fillColour, currentTool, hideGrid])
 
 
   return <Canvas ref={canvasRef} width="100" height="100" /> 
