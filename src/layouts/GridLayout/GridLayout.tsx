@@ -9,16 +9,15 @@ type GridLayoutProps = {}
 const GridLayout: React.FC<GridLayoutProps> = (props) => {
 
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
+  const clickedShapes = useRef<Shape[]>([])
+  const mouseMovePosition = useRef<Point>({x: 0, y:0})
+  const mouseClickPosition = useRef<Point | undefined>(undefined)
+  const mouseDown = useRef<boolean>(false)
 
   const [shapes, setShapes] = useState<Shape[]>([]);
   const [offset, setOffset] = useState<Point>();
 
   const { fillColour, gridSize, strokeColour} = useContext(ToolbarContext)
-
-  let clickShapes: Shape[] = [];
-  let mouseMovePosition: Point = {x: 0, y: 0};
-  let mouseClickPosition: Point | undefined = undefined
-  let mouseDown: boolean = false
 
   const reOffset = () => {
     if(canvasRef.current === null) return;
@@ -94,17 +93,17 @@ const GridLayout: React.FC<GridLayoutProps> = (props) => {
     for(var i=0;i<shapes.length;i++){
       drawShape(ctx, shapes[i].shape);
 
-      if(mouseClickPosition){
-        if(ctx.isPointInPath(mouseClickPosition.x, mouseClickPosition.y)){
+      if(mouseClickPosition.current){
+        if(ctx.isPointInPath(mouseClickPosition.current.x, mouseClickPosition.current.y)){
             const colour = fillColour;
             ctx.fillStyle=colour;
             ctx.fill();
-            clickShapes.push({...shapes[i], colour});
-            mouseClickPosition = undefined
+            clickedShapes.current.push({...shapes[i], colour});
+            mouseClickPosition.current = undefined
         }
     }
 
-      if(ctx.isPointInPath(mouseMovePosition.x, mouseMovePosition.y)){
+      if(ctx.isPointInPath(mouseMovePosition.current.x, mouseMovePosition.current.y)){
         ctx.strokeStyle="black";
         ctx.stroke();
         ctx.strokeStyle=strokeColour;
@@ -112,7 +111,7 @@ const GridLayout: React.FC<GridLayoutProps> = (props) => {
         ctx.stroke()
       } 
 
-      const clickedShape = clickShapes.find( shape => shape.id === shapes[i].id)
+      const clickedShape = clickedShapes.current.find( shape => shape.id === shapes[i].id)
 
       if(clickedShape){
         // console.log('clickedShape', clickedShape)
@@ -132,14 +131,14 @@ const GridLayout: React.FC<GridLayoutProps> = (props) => {
     // @ts-ignore
     const mouseY=parseInt( e.clientY - offset?.y);
   
-    if(mouseDown){
-      mouseClickPosition = {
+    if(mouseDown.current){
+      mouseClickPosition.current = {
         x: mouseX,
         y: mouseY
     }
     }
     else{ 
-      mouseMovePosition = {
+      mouseMovePosition.current = {
         x: mouseX,
         y: mouseY
       }
@@ -156,7 +155,7 @@ const GridLayout: React.FC<GridLayoutProps> = (props) => {
     // @ts-ignore
     const mouseY=parseInt( e.clientY - offset.y );
   
-    mouseClickPosition = {
+    mouseClickPosition.current = {
       x: mouseX,
       y: mouseY
     }
@@ -166,13 +165,13 @@ const GridLayout: React.FC<GridLayoutProps> = (props) => {
   function handleMouseDown(e: any){
     e.preventDefault();
     e.stopPropagation();
-    mouseDown = true
+    mouseDown.current = true
   }
   
   function handleMouseUp(e: any){
     e.preventDefault();
     e.stopPropagation();
-    mouseDown = false
+    mouseDown.current = false
   }
 
 
@@ -219,7 +218,7 @@ const GridLayout: React.FC<GridLayoutProps> = (props) => {
       canvas.removeEventListener('mouseup', handleMouseUp)
     }
 
-  }, [shapes, fillColour, clickShapes])
+  }, [shapes, fillColour])
 
 
   return <Canvas ref={canvasRef} width="100" height="100" /> 
