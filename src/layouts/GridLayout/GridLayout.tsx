@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef, useContext } from 'react';
 import styled from 'styled-components';
-import ToolbarContext from '../../contexts/ToolbarContext';
+import ToolbarContext from '../../contexts/ToolBarContext';
 
 import { Point, Shape, Tools } from '../../types';
 

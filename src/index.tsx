@@ -4,7 +4,7 @@ import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 
-import {ToolBarContextProvider }  from './contexts/ToolbarContext'
+import { ToolBarContextProvider }  from './contexts/ToolBarContext'
 
 ReactDOM.render(
   <React.StrictMode>

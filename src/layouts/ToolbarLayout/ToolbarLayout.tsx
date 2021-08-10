@@ -3,7 +3,7 @@ import styled from 'styled-components';
 
 import ButtonComponent from '../../components/ButtonComponent';
 
-import ToolbarContext from '../../contexts/ToolbarContext'
+import ToolbarContext from '../../contexts/ToolBarContext'
 
 import { IconTypes, Tools } from '../../types';
 
