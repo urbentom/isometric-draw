@@ -35,6 +35,7 @@ function App() {
   let clickShapes: Shape[] = []
   let offsetX: number = 0
   let offsetY: number = 0
+  let mouseDown: boolean = false
 
 
     
@@ -42,9 +43,16 @@ function App() {
     if(canvasRef.current === null) return;
     // Initialize App 
     canvasContextRef.current = canvasRef.current.getContext("2d");
+
+    if(canvasRef.current.height !== window.innerHeight){
+      canvasRef.current.height = window.innerHeight;
+      canvasRef.current.width = window.innerWidth;
+    }
+
+
     canvasDimensions.current = {
-      height: canvasRef.current.height,
-      width: canvasRef.current.width,
+      height: window.innerHeight,
+      width: window.innerWidth,
     }
     createShapes();
   }, [canvasRef])
@@ -65,7 +73,8 @@ function App() {
     canvasContext.lineWidth=1;
 
     canvas.addEventListener('mousemove', handleMouseMove)
-    canvas.addEventListener('click', handleMouseClick)
+    canvas.addEventListener('mousedown', handleMouseDown)
+    canvas.addEventListener('mouseup', handleMouseUp)
 
     loop();
     
@@ -188,30 +197,35 @@ function handleMouseMove(e: any){
   // @ts-ignore
   const mouseY=parseInt(e.clientY-offsetY);
 
-  mouseMovePosition = {
+  if(mouseDown){
+    mouseClickPosition = {
       x: mouseX,
       y: mouseY
+  }
+  }
+  else{ 
+    mouseMovePosition = {
+      x: mouseX,
+      y: mouseY
+    }
   }
 
 }
 
-function handleMouseClick(e: any){
+function handleMouseDown(e: any){
   e.preventDefault();
   e.stopPropagation();
+  mouseDown = true;
+}
 
-  // @ts-ignore
-  const mouseX=parseInt(e.clientX-offsetX);
-  // @ts-ignore
-  const mouseY=parseInt(e.clientY-offsetY);
-
-  mouseClickPosition = {
-      x: mouseX,
-      y: mouseY
-  }
+function handleMouseUp(e: any){
+  e.preventDefault();
+  e.stopPropagation();
+  mouseDown = false
 }
 
   return (
-    <canvas ref={canvasRef} id="grid" width="700" height="700"></canvas>
+    <canvas ref={canvasRef} id="grid" width="100vw" height="100vh"></canvas>
   );
 }
 
