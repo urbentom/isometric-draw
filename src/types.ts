@@ -17,7 +17,8 @@ export type Point = {
 export enum IconTypes {
   PEN = "pen",
   ERASER = "eraser",
-  PALLET = 'pallet'
+  PALLET = 'pallet',
+  GITHUB = 'github'
 }
 
 export enum Tools {
