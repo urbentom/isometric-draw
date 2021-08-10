@@ -10,6 +10,7 @@ type ToolBarContextProps = {
   strokeColour: string
   colourPallet: string[]
   setColour: (colour: string) => void
+  setTool: (tool: Tools) => void
   gridSize: number
 }
 
@@ -38,6 +39,7 @@ const Context = React.createContext<ToolBarContextProps>({
   strokeColour: "lightgrey",
   colourPallet: SummerNeonPallet,
   setColour: () => null,
+  setTool: () => null,
   gridSize: 30
 })
 
@@ -49,12 +51,6 @@ const ToolBarContextProvider: React.FC<ProviderProps> = ( {children}) => {
 
   const strokeColour = 'lightgrey'
 
-  useEffect( () => {
-
-    console.log('Current Colour Updated', fillColour)
-
-  }, [fillColour])
-  
   return (
 		<Context.Provider
 			value={{
@@ -63,7 +59,8 @@ const ToolBarContextProvider: React.FC<ProviderProps> = ( {children}) => {
         strokeColour,
 				colourPallet,
         gridSize,
-        setColour: setFillColour
+        setColour: setFillColour,
+        setTool: setCurrentTool
 			}}
 		>
 			{children}

@@ -13,3 +13,14 @@ export type Point = {
   x: number,
   y: number
 }
+
+export enum IconTypes {
+  PEN = "pen",
+  ERASER = "eraser",
+  PALLET = 'pallet'
+}
+
+export enum Tools {
+  PAINT,
+  ERASE
+}
