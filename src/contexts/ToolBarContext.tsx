@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 
 interface ProviderProps {
 	children?: React.ReactNode;
@@ -6,9 +6,11 @@ interface ProviderProps {
 
 type ToolBarContextProps = {
   currentTool: Tools,
-  currentColour: string
+  fillColour: string
+  strokeColour: string
   colourPallet: string[]
   setColour: (colour: string) => void
+  gridSize: number
 }
 
 enum Tools {
@@ -32,24 +34,36 @@ const NightSkyPallet = [
 
 const Context = React.createContext<ToolBarContextProps>({
   currentTool: Tools.PAINT,
-  currentColour: "#F6A9A9",
+  fillColour: "#F6A9A9",
+  strokeColour: "lightgrey",
   colourPallet: SummerNeonPallet,
-  setColour: () => null
+  setColour: () => null,
+  gridSize: 30
 })
 
 const ToolBarContextProvider: React.FC<ProviderProps> = ( {children}) => {
   const [currentTool, setCurrentTool] = useState<Tools>(Tools.PAINT);
-  const [currentColour, setCurrentColour] = useState<string>("#F6A9A9");
+  const [gridSize, setGridSize] = useState<number>(30);
+  const [fillColour, setFillColour] = useState<string>("#F6A9A9");
   const [colourPallet, setColourPallet] = useState<string[]>(SummerNeonPallet);
 
+  const strokeColour = 'lightgrey'
+
+  useEffect( () => {
+
+    console.log('Current Colour Updated', fillColour)
+
+  }, [fillColour])
   
   return (
 		<Context.Provider
 			value={{
 				currentTool,
-				currentColour,
+				fillColour,
+        strokeColour,
 				colourPallet,
-        setColour: setCurrentColour
+        gridSize,
+        setColour: setFillColour
 			}}
 		>
 			{children}

@@ -1,6 +1,9 @@
 import React, { useState, useEffect, useRef, useContext } from 'react';
+import styled from 'styled-components';
 
-import ToolBarContext from '../../contexts/ToolBarContext';
+import ToolbarContext from '../../contexts/ToolbarContext';
+import GridLayout from '../../layouts/GridLayout';
+import ToolbarLayout from '../../layouts/ToolbarLayout';
 
 // Types
 import {Dimensions, Shape, Point} from '../../types';
@@ -17,7 +20,7 @@ const GridScreen: React.FC<GridScreenProps> = (props) => {
 
   // States
   const [shapes, setShapes] = useState<Shape[]>([]);
-  const { currentColour } = useContext(ToolBarContext)
+  const { fillColour: currentColour } = useContext(ToolbarContext)
   // const [clickShapes, setClickShapes] = useState<Shape[]>([]);
 
   // Constants
@@ -142,6 +145,7 @@ const GridScreen: React.FC<GridScreenProps> = (props) => {
       if(mouseClickPosition){
           if(canvasContext.isPointInPath(mouseClickPosition.x, mouseClickPosition.y)){
               const colour = currentColour;
+              console.log('currentColour', currentColour)
               canvasContext.fillStyle=colour;
               canvasContext.fill();
               clickShapes.push({...shapes[i], colour});
@@ -241,8 +245,16 @@ function handleMouseUp(e: any){
 }
 
   return (
-    <canvas ref={canvasRef} id="grid" width="100vw" height="100vh"></canvas>
+    <Wrapper>
+      <ToolbarLayout />
+      <GridLayout />
+      {/* <canvas ref={canvasRef} id="grid" width="100" height="100vh"></canvas> */}
+    </Wrapper>
   );
 }
+
+const Wrapper = styled.div`
+  overflow: none;
+`
 
 export default GridScreen;
