@@ -17,7 +17,9 @@ if(process.env.REACT_APP_SENTRY_URL) {
   });
 }
 
-if(process.env.REACT_APP_GA_ID) ReactGA.initialize(process.env.REACT_APP_GA_ID);
+
+ReactGA.initialize(process.env.REACT_APP_GA_ID ?? "");
+ReactGA.pageview(window.location.pathname + window.location.search);
 
 
 ReactDOM.render(
