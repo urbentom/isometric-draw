@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
 
-import { initialize, hasPreviouslyConsented } from '../../utils/analytics';
+import { pageView, hasPreviouslyConsented } from '../../utils/analytics';
 import IconComponent from '../../components/IconComponent';
 import { IconTypes } from '../../types';
 import { useEffect } from 'react';
@@ -12,7 +12,7 @@ const AnalyticsPopupLayout: React.FC<AnalyticsPopupLayoutProps> = (props) => {
   const [acceptCookiePolicy, setAcceptCookiePolicy] = useState<boolean>(hasPreviouslyConsented)
 
   useEffect( () => {
-    if(acceptCookiePolicy) initialize();
+    if(acceptCookiePolicy) pageView();
   }, [acceptCookiePolicy])
 
   return (
