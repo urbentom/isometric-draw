@@ -1,6 +1,3 @@
-import ReactGA from 'react-ga';
-
-
 export const hasPreviouslyConsented = () => {
     return document.cookie.includes("_ga")
 }

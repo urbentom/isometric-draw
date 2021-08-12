@@ -28,3 +28,10 @@ export enum Tools {
   PAINT,
   ERASE
 }
+
+export type Colour = {
+  name: string,
+  default: string,
+  lighten: string,
+  darken: string
+}

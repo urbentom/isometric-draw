@@ -2,6 +2,7 @@ import React, { useContext, useState } from 'react';
 import styled from 'styled-components';
 
 import ButtonComponent from '../../components/ButtonComponent';
+import ColourPalletComponent from '../../components/ColourPalletComponent';
 
 import ToolbarContext from '../../contexts/ToolBarContext'
 
@@ -24,10 +25,14 @@ const ToolbarLayout: React.FC<ToolbarLayoutProps> = (props) => {
 
     <PalletMenu show={openPallet}>
       {
-        colourPallet.map( (colour) => <PalletColour colour={colour} onClick={ () => {
-          setColour(colour);
-          setOpenPallet(false)
-        }} active={colour === fillColour} /> )
+        colourPallet.map( (colourSet) => {
+
+          return <ColourPalletComponent colour={colourSet} currentColour={fillColour} onClick={ (colour) => {
+            setColour(colour);
+            setOpenPallet(false)
+          }}  />
+
+        } )
       }
     </PalletMenu>
   </Wrapper>
@@ -59,16 +64,6 @@ const PalletMenu = styled.div<{show: boolean}>`
   border-radius: 10px;
   top: 92px;
   left: 55px;
-`
-const PalletColour = styled.div<{colour: string, active: boolean}>`
-  background-color: ${ ({colour}) => colour };
-  border: solid 2px;
-  border-color: ${ ({active, colour}) => active? "#ffffff" : colour };
-  height: 30px;
-  width: 30px;
-  border-radius: 5px;
-  margin: 5px;
-  cursor: pointer;
 `
 
 export default ToolbarLayout;
