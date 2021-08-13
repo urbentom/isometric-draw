@@ -14,7 +14,7 @@ type ColourPalletComponentProps = {
     onClick: (colour: string) => void
 }
 
-const ColourPalletComponent: React.FC<ColourPalletComponentProps> = (props) => {
+const ColourPickerComponent: React.FC<ColourPalletComponentProps> = (props) => {
 
     return <ColourPalletWrapper>
         <ColourComponent colour={props.colour.lighten} onClick={() => props.onClick(props.colour.lighten)} active={props.colour.lighten === props.currentColour} />
@@ -29,4 +29,4 @@ const ColourPalletWrapper = styled.div`
     flex-direction: row;
 `
 
-export default ColourPalletComponent;
+export default ColourPickerComponent;

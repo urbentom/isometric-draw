@@ -22,6 +22,7 @@ export enum IconTypes {
   SHOW_GRID = 'showGrid',
   HIDE_GRID = 'hideGrid',
   COOKIE = 'cookie',
+  SWATCH_PALLET = 'swatchPallet',
 }
 
 export enum Tools {
@@ -34,4 +35,9 @@ export type Colour = {
   default: string,
   lighten: string,
   darken: string
+}
+
+export type Pallet = {
+  name: string,
+  colours: string[]
 }
