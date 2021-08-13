@@ -1,6 +1,6 @@
 # Isometric Grid
 
-![Isometric Grid Screenshot](https://github.com/urbentom/isometric-draw/blob/main/Screenshot 2021-08-13 at 19.35.19.png?raw=true)
+![Isometric Grid Screenshot](https://github.com/urbentom/isometric-draw/blob/main/screenshot.png?raw=true)
 
 ## What is it? 
 
