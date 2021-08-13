@@ -2,7 +2,6 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import * as Sentry from "@sentry/react";
 import { Integrations } from "@sentry/tracing";
-import ReactGA from 'react-ga';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 import './Normalise.css';
@@ -16,9 +15,6 @@ if(process.env.REACT_APP_SENTRY_URL) {
     tracesSampleRate: 1.0,
   });
 }
-
-if(process.env.REACT_APP_GA_ID) ReactGA.initialize(process.env.REACT_APP_GA_ID);
-
 
 ReactDOM.render(
   <React.StrictMode>

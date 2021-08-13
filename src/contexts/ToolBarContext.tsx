@@ -1,5 +1,10 @@
 import React, { useState } from 'react';
 
+import { SummerNeonPallet } from '../constants/pallet';
+import { expandColourPallet } from '../utils/colours';
+
+import { Colour, Tools, Pallet } from '../types';
+
 interface ProviderProps {
 	children?: React.ReactNode;
 }
@@ -8,39 +13,22 @@ type ToolBarContextProps = {
   currentTool: Tools,
   fillColour: string
   strokeColour: string
-  colourPallet: string[]
+  colourPallet: Colour[]
   setColour: (colour: string) => void
+  setPallet: (pallet: Pallet) => void
   setTool: (tool: Tools) => void
   setHideGrid: (hide: boolean) => void
   gridSize: number
   hideGrid: boolean
 }
 
-enum Tools {
-  PAINT,
-  ERASE
-}
-
-const SummerNeonPallet = [
-  "#F6A9A9",
-  "#FFBF86",
-  "#FFF47D",
-  "#C2F784"
-]
-
-const NightSkyPallet = [
-  "#261C2C",
-  "#3E2C41",
-  "#5C527F",
-  "#6E85B2"
-]
-
 const Context = React.createContext<ToolBarContextProps>({
   currentTool: Tools.PAINT,
   fillColour: "#F6A9A9",
   strokeColour: "lightgrey",
-  colourPallet: SummerNeonPallet,
+  colourPallet: [],
   setColour: () => null,
+  setPallet: () => null,
   setTool: () => null,
   setHideGrid: () => null,
   gridSize: 30,
@@ -52,9 +40,14 @@ const ToolBarContextProvider: React.FC<ProviderProps> = ( {children}) => {
   const [gridSize, setGridSize] = useState<number>(30);
   const [fillColour, setFillColour] = useState<string>("#F6A9A9");
   const [hideGrid, setHideGrid] = useState<boolean>(false);
-  const [colourPallet, setColourPallet] = useState<string[]>(SummerNeonPallet);
+  const [colourPallet, setColourPallet] = useState<Colour[]>(expandColourPallet(SummerNeonPallet.colours));
 
   const strokeColour = 'lightgrey'
+
+  const setPallet = (pallet: Pallet) => { 
+    setColourPallet(expandColourPallet(pallet.colours)) 
+    setFillColour(pallet.colours[0])
+  }
 
   return (
 		<Context.Provider
@@ -66,6 +59,7 @@ const ToolBarContextProvider: React.FC<ProviderProps> = ( {children}) => {
         gridSize,
         hideGrid,
         setHideGrid,
+        setPallet,
         setColour: setFillColour,
         setTool: setCurrentTool
 			}}
