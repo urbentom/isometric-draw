@@ -17,7 +17,14 @@ const GridLayout: React.FC<GridLayoutProps> = (props) => {
   const [shapes, setShapes] = useState<Shape[]>([]);
   const [offset, setOffset] = useState<Point>();
 
-  const { fillColour, gridSize, strokeColour, currentTool, hideGrid } = useContext(ToolbarContext)
+  const {
+		fillColour,
+		gridSize,
+		strokeColour,
+		currentTool,
+		hideGrid,
+		setCanvas,
+	} = useContext(ToolbarContext);
 
   const reOffset = () => {
     if(canvasRef.current === null) return;
@@ -199,6 +206,8 @@ const GridLayout: React.FC<GridLayoutProps> = (props) => {
 
   useEffect( () => {
     if(canvasRef.current === null) return;
+
+    setCanvas(canvasRef.current);
 
     canvasRef.current.height = window.innerHeight;
     canvasRef.current.width = window.innerWidth;

@@ -13,7 +13,16 @@ type ToolbarLayoutProps = {}
 
 const ToolbarLayout: React.FC<ToolbarLayoutProps> = (props) => {
 
-  const { setColour, colourPallet, currentTool, setTool, fillColour, hideGrid, setHideGrid } = useContext(ToolbarContext);
+  const {
+		setColour,
+		colourPallet,
+		currentTool,
+		setTool,
+		fillColour,
+		hideGrid,
+		setHideGrid,
+		saveCanvas,
+	} = useContext(ToolbarContext);
 
   const [openColourPicker, setOpenColourPicker] = useState<boolean>(false)
   const [openPallet, setOpenPallet] = useState<boolean>(false)
@@ -43,23 +52,52 @@ const ToolbarLayout: React.FC<ToolbarLayoutProps> = (props) => {
   }
 
 
-  return <Wrapper>
-    <ButtonComponent icon={IconTypes.PEN} active={currentTool === Tools.PAINT} onClick={ () => setTool(Tools.PAINT)}  />
-    <ButtonComponent icon={IconTypes.ERASER} active={currentTool === Tools.ERASE} onClick={ () => setTool(Tools.ERASE)}  />
-    <ButtonComponent icon={IconTypes.PALLET} onClick={colourPickerOnClick} fill={fillColour} />
-    <ButtonComponent icon={IconTypes.SWATCH_PALLET} onClick={colourPalletOnClick} />
-    <Spacer />
-    <ButtonComponent icon={ hideGrid? IconTypes.HIDE_GRID : IconTypes.SHOW_GRID} onClick={ () => setHideGrid(!hideGrid)} />
+  return (
+		<Wrapper>
+			<ButtonComponent
+				icon={IconTypes.PEN}
+				active={currentTool === Tools.PAINT}
+				onClick={() => setTool(Tools.PAINT)}
+			/>
+			<ButtonComponent
+				icon={IconTypes.ERASER}
+				active={currentTool === Tools.ERASE}
+				onClick={() => setTool(Tools.ERASE)}
+			/>
+			<ButtonComponent
+				icon={IconTypes.PALLET}
+				onClick={colourPickerOnClick}
+				fill={fillColour}
+			/>
+			<ButtonComponent
+				icon={IconTypes.SWATCH_PALLET}
+				onClick={colourPalletOnClick}
+			/>
+			<Spacer />
+			<ButtonComponent
+				icon={hideGrid ? IconTypes.HIDE_GRID : IconTypes.SHOW_GRID}
+				onClick={() => setHideGrid(!hideGrid)}
+			/>
+			<Spacer />
+			<ButtonComponent
+				icon={IconTypes.SWATCH_PALLET}
+				onClick={() => saveCanvas()}
+			/>
 
-    <ColourMenu show={openColourPicker}>
-      {
-        colourPallet.map( (colourSet) => <ColourPickerComponent colour={colourSet} currentColour={fillColour} onClick={onColourClick}  /> )
-      }
-    </ColourMenu>
-    <PalletMenu show={openPallet}>
-      <PalletPickerComponent onClick={onPalletClick}  />
-    </PalletMenu>
-  </Wrapper>
+			<ColourMenu show={openColourPicker}>
+				{colourPallet.map((colourSet) => (
+					<ColourPickerComponent
+						colour={colourSet}
+						currentColour={fillColour}
+						onClick={onColourClick}
+					/>
+				))}
+			</ColourMenu>
+			<PalletMenu show={openPallet}>
+				<PalletPickerComponent onClick={onPalletClick} />
+			</PalletMenu>
+		</Wrapper>
+	);
 
 }
 

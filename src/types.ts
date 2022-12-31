@@ -15,14 +15,15 @@ export type Point = {
 }
 
 export enum IconTypes {
-  PEN = "pen",
-  ERASER = "eraser",
-  PALLET = 'pallet',
-  GITHUB = 'github',
-  SHOW_GRID = 'showGrid',
-  HIDE_GRID = 'hideGrid',
-  COOKIE = 'cookie',
-  SWATCH_PALLET = 'swatchPallet',
+	PEN = 'pen',
+	ERASER = 'eraser',
+	PALLET = 'pallet',
+	GITHUB = 'github',
+	SHOW_GRID = 'showGrid',
+	HIDE_GRID = 'hideGrid',
+	COOKIE = 'cookie',
+	SWATCH_PALLET = 'swatchPallet',
+	SAVE = 'save',
 }
 
 export enum Tools {

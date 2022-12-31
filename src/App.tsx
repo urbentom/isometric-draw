@@ -2,15 +2,21 @@ import React from 'react';
 
 import GridScreen from './screens/GridScreen';
 import AnalyticsPopupLayout from './layouts/AnalyticsPopupLayout';
+import { WalletProvider } from './providers/WalletProvider';
+import { MetaplexProvider } from './contexts/MetaplexContext';
 
 
 function App() {
   
 
-  return <>
-    <GridScreen />
-    <AnalyticsPopupLayout />
-  </>
+  return (
+		<WalletProvider>
+			<MetaplexProvider>
+				<GridScreen />
+				<AnalyticsPopupLayout />
+			</MetaplexProvider>
+		</WalletProvider>
+	);
 }
 
 
